@@ -1,6 +1,7 @@
 package com.cs.ajinkya.restful_api_jersey.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,23 @@ public class MessageService {
 
 	public Message removeMessage(long id) {
 		return messages.remove(id);
+	}
+
+	public List<Message> getAllMessagesForAYear(int year) {
+		List<Message> messagesForYear = new ArrayList<Message>();
+		Calendar calendar = Calendar.getInstance();
+		for (Message message : messages.values()) {
+			calendar.setTime(message.getCreated());
+			if (calendar.get(Calendar.YEAR) == year) {
+				messagesForYear.add(message);
+			}
+		}
+		return messagesForYear;
+	}
+
+	public List<Message> getAllMesagesPaginated(int start, int size) {
+		List<Message> list = new ArrayList<>(messages.values());
+		return list.subList(start, start + size);
 	}
 
 }
