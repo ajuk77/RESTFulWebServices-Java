@@ -2,20 +2,40 @@ package com.cs.ajinkya.restful_api_jersey.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.cs.ajinkya.restful_api_jersey.database.DatabaseClass;
 import com.cs.ajinkya.restful_api_jersey.model.Message;
 
 public class MessageService {
-	
+
+	private Map<Long, Message> messages = DatabaseClass.getMessages();
+
 	public List<Message> getAllMessages() {
-		Message m1 = new Message(1L, "Hey dude!", "Ajinkya");
-		Message m2 = new Message(2L, "Hey Yogesh", "Yogesh");
+		return (ArrayList<Message>) messages.values();
+	}
+
+	public Message getMessage(long id) {
+		return messages.get(id);
+	}
+
+	public Message addMessage(Message message) {
+		long messageId = (messages.size() + 1);
+		message.setId(messageId);
+		messages.put(messageId, message);
+		return message;
+	}
+
+	public Message updateMessage(Message message) {
+		if (message.getId() <= 0) {
+			return null;
+		}
+		messages.put(message.getId(), message);
+		return message;
+	}
 	
-		List<Message> messages = new ArrayList<Message>();
-		messages.add(m1);
-		messages.add(m2);
-		return messages;
-		
+	public Message removeMessage(long id) {
+		return messages.remove(id);
 	}
 
 }
