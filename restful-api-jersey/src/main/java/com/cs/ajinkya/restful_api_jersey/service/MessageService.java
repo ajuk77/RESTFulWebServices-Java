@@ -12,7 +12,7 @@ public class MessageService {
 	private Map<Long, Message> messages = DatabaseClass.getMessages();
 
 	public List<Message> getAllMessages() {
-		return (ArrayList<Message>) messages.values();
+		return new ArrayList<Message>(messages.values());
 	}
 
 	public Message getMessage(long id) {
@@ -33,7 +33,7 @@ public class MessageService {
 		messages.put(message.getId(), message);
 		return message;
 	}
-	
+
 	public Message removeMessage(long id) {
 		return messages.remove(id);
 	}
